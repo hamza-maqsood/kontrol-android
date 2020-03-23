@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res/android"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.grayhatdevelopers.kontrol.ui.fragments.dashboard.DashboardViewModel" />
+
+        <variable
+            name="rider"
+            type="com.grayhatdevelopers.kontrol.models.Rider" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:elevation="24dp"
+                bind:loadUserPhoto="@{rider.imageURI}"
+                android:translationY="-18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/materialCardView" />
+
+            <LinearLayout
+                android:id="@+id/materialCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/dashboard_top_card_bg"
+                android:elevation="16dp"
+                app:cardCornerRadius="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="120dp"
+                        android:layout_marginTop="11dp"
+                        android:text="@{rider.displayName}"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/workplace_building"
+                        android:gravity="center"
+                        android:text="@string/saloon_deziners"
+                        app:layout_constraintStart_toStartOf="@+id/textView"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/rider"
+                        android:gravity="center"
+                        android:text="@string/supply_officer"
+                        app:layout_constraintStart_toStartOf="@+id/textView2"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:drawableStart="@drawable/email"
+                        android:gravity="center"
+                        android:text="@string/info_saloondeziners_com"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/phone"
+                        android:gravity="center"
+                        android:text="+92 (312) 2611652"
+                        app:layout_constraintStart_toStartOf="@+id/textView4"
+                        app:layout_constraintTop_toBottomOf="@+id/textView4"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ID# 1234556"
+                        app:layout_constraintStart_toEndOf="@+id/textView3"
+                        app:layout_constraintTop_toTopOf="@+id/textView4"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/area"
+                        app:layout_constraintStart_toStartOf="@+id/textView6"
+                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ISBD / RWP"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                        app:layout_constraintStart_toEndOf="@+id/textView7"
+                        app:layout_constraintTop_toTopOf="@+id/textView7"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/payment_collected"
+                        android:textAllCaps="true"
+                        app:layout_constraintEnd_toStartOf="@+id/view"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/tasks_completed"
+                        android:textAllCaps="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/view"
+                        app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="2dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/inactive_text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@{rider.cashAmount + ` PKR`}"
+                        android:textSize="21sp"
+                        app:layout_constraintEnd_toEndOf="@+id/textView9"
+                        app:layout_constraintStart_toStartOf="@+id/textView9"
+                        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+                    <TextView
+                        android:id="@+id/tasks_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@{viewModel.tasksRatio}"
+                        android:textSize="21sp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="@+id/textView10"
+                        app:layout_constraintStart_toStartOf="@+id/textView10"
+                        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+                    <ProgressBar
+                        android:id="@+id/tasks_pb"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginTop="8dp"
+                        android:indeterminate="true"
+                        android:visibility="gone"
+                        android:indeterminateTintMode="src_atop"
+                        android:indeterminateTint="@color/draft_button"
+                        app:layout_constraintEnd_toEndOf="@+id/textView10"
+                        app:layout_constraintStart_toStartOf="@+id/textView10"
+                        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bottom_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="7"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+                app:layout_constraintVertical_bias="0.0"
+                android:baselineAligned="false">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/options_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5">
+
+                    <LinearLayout
+                        android:id="@+id/materialCardView2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:background="@drawable/dashboard_options_bg"
+                        android:elevation="32dp"
+                        android:onClick="@{() -> viewModel.openCreateNewPaymentFragment()}"
+                        android:outlineProvider="none"
+                        app:layout_constraintEnd_toEndOf="@+id/materialCardView5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/new_task_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/plus_icon"
+                            android:gravity="center"
+                            android:paddingStart="32dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="32dp"
+                            android:paddingBottom="8dp"
+                            android:text="     Create Payment"
+                            tools:ignore="HardcodedText"
+                            tools:layout_editor_absoluteX="23dp"
+                            tools:layout_editor_absoluteY="359dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/materialCardView3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/dashboard_options_bg"
+                        android:elevation="32dp"
+                        android:outlineProvider="none"
+                        android:translationZ="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/materialCardView5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
+
+                        <TextView
+                            android:id="@+id/active_tasks_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/tasks_icon"
+                            android:gravity="center"
+                            android:onClick="@{() -> viewModel.openActiveTasksFragment()}"
+                            android:paddingStart="32dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="32dp"
+                            android:paddingBottom="8dp"
+                            android:text="     Active Tasks"
+                            tools:ignore="HardcodedText"
+                            tools:layout_editor_absoluteX="23dp"
+                            tools:layout_editor_absoluteY="359dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/materialCardView4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/dashboard_options_bg"
+                        android:elevation="32dp"
+                        android:onClick="@{() -> viewModel.openTasksHistoryFragment()}"
+                        android:outlineProvider="none"
+                        app:layout_constraintEnd_toEndOf="@+id/materialCardView5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/materialCardView3">
+
+                        <TextView
+                            android:id="@+id/task_history_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/history_icon"
+                            android:gravity="center"
+                            android:paddingStart="32dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="32dp"
+                            android:paddingBottom="8dp"
+                            android:text="     My Tasks History"
+                            tools:ignore="HardcodedText"
+                            tools:layout_editor_absoluteX="23dp"
+                            tools:layout_editor_absoluteY="359dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/materialCardView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/dashboard_options_bg"
+                        android:elevation="32dp"
+                        android:onClick="@{() -> viewModel.openChatFragment()}"
+                        android:outlineProvider="none"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/materialCardView4">
+
+                        <TextView
+                            android:id="@+id/chat_mode_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/dashboard_options_bg"
+                            android:drawableStart="@drawable/info_icon"
+                            android:gravity="center"
+                            android:outlineProvider="none"
+                            android:paddingStart="32dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="32dp"
+                            android:paddingBottom="8dp"
+                            android:text="     Switch To Chat Mode"
+                            tools:ignore="HardcodedText"
+                            tools:layout_editor_absoluteX="23dp"
+                            tools:layout_editor_absoluteY="359dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="32dp"
+                        android:background="@drawable/sign_out_option_bg"
+                        android:elevation="32dp"
+                        android:onClick="@{() -> viewModel.logoutUser()}"
+                        android:outlineProvider="none"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/materialCardView5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/materialCardView5">
+
+                        <TextView
+                            android:id="@+id/sign_out_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/user_icon"
+                            android:gravity="center"
+                            android:paddingStart="32dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="32dp"
+                            android:paddingBottom="8dp"
+                            android:text="     Sign Out"
+                            android:textColor="@color/white"
+                            tools:layout_editor_absoluteX="23dp"
+                            tools:layout_editor_absoluteY="359dp" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/map_container"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="32dp"
+                    android:layout_weight="2"
+                    app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/materialCardView4"
+                    app:layout_constraintTop_toTopOf="@+id/materialCardView2"
+                    android:orientation="horizontal">
+
+
+                    <com.mapbox.mapboxsdk.maps.MapView
+                        android:id="@+id/mapView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="32dp"
+                        mapbox:mapbox_cameraTargetLat="33.6844"
+                        mapbox:mapbox_cameraTargetLng="73.0479"
+                        mapbox:mapbox_cameraZoom="11">
+
+                    </com.mapbox.mapboxsdk.maps.MapView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/standardBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="62dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <include
+                layout="@layout/fragment_dashboard_bottom_sheet"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

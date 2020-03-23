@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/app_fragments_flow"
+    app:startDestination="@id/chatFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.grayhatdevelopers.kontrol.ui.fragments.login.LoginFragment"
+        android:label="LoginFragment">
+        <action
+            android:id="@+id/action_loginFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.grayhatdevelopers.kontrol.ui.fragments.dashboard.DashboardFragment"
+        android:label="DashboardFragment">
+        <action
+            android:id="@+id/action_dashboardFragment_to_activeTasksFragment"
+            app:destination="@id/activeTasksFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_createPaymentFragment"
+            app:destination="@id/createPaymentFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_tasksHistoryFragment"
+            app:destination="@id/tasksHistoryFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activeTasksFragment"
+        android:name="com.grayhatdevelopers.kontrol.ui.fragments.activetasks.ActiveTasksFragment"
+        android:label="ActiveTasksFragment">
+        <action
+            android:id="@+id/action_activeTasksFragment_to_executeTaskFragment"
+            app:destination="@id/executeTaskFragment" />
+        <action
+            android:id="@+id/action_activeTasksFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPaymentFragment"
+        android:name="com.grayhatdevelopers.kontrol.ui.fragments.createpayment.CreatePaymentFragment"
+        android:label="CreatePaymentFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.grayhatdevelopers.kontrol.ui.fragments.profile.ProfileFragment"
+        android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/tasksHistoryFragment"
+        android:name="com.grayhatdevelopers.kontrol.ui.fragments.taskshistory.TasksHistoryFragment"
+        android:label="TasksHistoryFragment" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.grayhatdevelopers.kontrol.ui.fragments.chat.ChatFragment"
+        android:label="ChatFragment" />
+    <fragment
+        android:id="@+id/executeTaskFragment"
+        android:name="com.grayhatdevelopers.kontrol.ui.fragments.executetasks.ExecuteTaskFragment"
+        android:label="ExecuteTaskFragment">
+        <argument
+            android:name="task"
+            app:argType="com.grayhatdevelopers.kontrol.models.task.Task" />
+    </fragment>
+</navigation>
