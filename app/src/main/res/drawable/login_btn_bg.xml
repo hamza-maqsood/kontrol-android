@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="4dp" />
+
+
+    <gradient
+        android:angle="0"
+        android:centerColor="#581c81"
+        android:endColor="#581c81"
+        android:startColor="@color/login_btn" />
+
+
+    <corners
+        android:radius="1dp"
+        android:bottomRightRadius="18dp"
+        android:bottomLeftRadius="18dp"
+        android:topLeftRadius="18dp"
+        android:topRightRadius="18dp" />
+</shape>

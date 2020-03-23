@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="4dp" />
+
+
+    <gradient
+        android:angle="0"
+        android:centerColor="@color/sign_out_bg"
+        android:endColor="@color/sign_out_bg"
+        android:startColor="@color/sign_out_bg" />
+
+
+    <corners
+        android:radius="1dp"
+        android:bottomRightRadius="24dp"
+        android:topRightRadius="24dp" />
+</shape>
