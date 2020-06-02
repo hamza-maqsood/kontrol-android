@@ -1,6 +1,5 @@
 package com.grayhatdevelopers.kontrol.repo
 
-import android.util.Log
 import com.google.gson.GsonBuilder
 import com.grayhatdevelopers.kontrol.utils.AppConstants
 import okhttp3.Dispatcher
@@ -9,14 +8,15 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-object ApiClient {
+object ApiClient{
 
     private val okHttpClient by lazy { OkHttpClient() }
 
     private val retrofit: Retrofit by lazy {
-        Log.e("AppClient", "Creating Retrofit Client")
+        Timber.d("Creating Retrofit Client")
         val builder = Retrofit.Builder()
             .baseUrl(AppConstants.AWS_SERVER_BASE_URL)
             .addConverterFactory(ScalarsConverterFactory.create())
@@ -33,9 +33,10 @@ object ApiClient {
             .connectTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
-            .addInterceptor(loggingInterceptor).addInterceptor {
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor {
                 val request = it.request().newBuilder()
-                    .addHeader(AppConstants.TOKEN, Repository.getInstance().getUserToken()).build()
+                    .addHeader(AppConstants.TOKEN, Repository.getUserSessionTokens()).build()
                 return@addInterceptor it.proceed(request)
             }
             .dispatcher(dispatcher)

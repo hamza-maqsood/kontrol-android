@@ -1,12 +1,12 @@
 package com.grayhatdevelopers.kontrol.bindingextensions
 
-import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.grayhatdevelopers.kontrol.R
 import com.grayhatdevelopers.kontrol.models.task.TaskStatus
 import de.hdodenhof.circleimageview.CircleImageView
+import timber.log.Timber
 
 object ImageBindings {
 
@@ -18,7 +18,7 @@ object ImageBindings {
     @JvmStatic
     @BindingAdapter("bind:imageUri")
     fun loadImage(view: CircleImageView, url: String?) {
-        Log.d(TAG, "Circular ImageView binding adapter called with uri: $url")
+        Timber.d("Circular ImageView binding adapter called with uri: $url")
         if (!url.isNullOrEmpty()) {
             Glide.with(view.context)
                 .load(url)
@@ -32,7 +32,7 @@ object ImageBindings {
     @JvmStatic
     @BindingAdapter("bind:loadUserPhoto")
     fun loadUserPhoto(view: CircleImageView, url: String?) {
-        Log.d(TAG, "Circular ImageView binding adapter called with uri: $url")
+        Timber.d("Circular ImageView binding adapter called with uri: $url")
         Glide.with(view.context)
             .load(url)
             .placeholder(R.drawable.profile_placeholder)
@@ -45,7 +45,7 @@ object ImageBindings {
     @JvmStatic
     @BindingAdapter("bind:imageUri")
     fun loadImage(view: ImageView, url: String?) {
-        Log.d(TAG, "ImageView binding adapter called with uri: $url")
+        Timber.d("ImageView binding adapter called with uri: $url")
         if (!url.isNullOrEmpty()) {
             view.scaleType = ImageView.ScaleType.FIT_XY
             Glide.with(view.context)

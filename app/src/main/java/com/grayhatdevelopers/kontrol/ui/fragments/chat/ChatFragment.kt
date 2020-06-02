@@ -1,27 +1,42 @@
 package com.grayhatdevelopers.kontrol.ui.fragments.chat
 
 import android.Manifest
-import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroupOverlay
+import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.grayhatdevelopers.kontrol.R
+import com.grayhatdevelopers.kontrol.adapters.messages.MessagesAdapter
 import com.grayhatdevelopers.kontrol.databinding.FragmentChatBinding
+import com.grayhatdevelopers.kontrol.di.kodeinViewModel
 import com.grayhatdevelopers.kontrol.ui.fragments.base.BaseFragment
-import com.grayhatdevelopers.kontrol.utils.InjectorUtils
-import com.grayhatdevelopers.kontrol.utils.PhotoChooser
+import com.grayhatdevelopers.kontrol.utils.MediaChooser
+import com.grayhatdevelopers.kontrol.utils.toast
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
+import timber.log.Timber
 
-class ChatFragment : BaseFragment() {
+class ChatFragment : BaseFragment(), MessagesAdapter.EnlargeImageRequestListener {
 
-    private lateinit var mViewModel: ChatViewModel
+    private val mViewModel: ChatViewModel by kodeinViewModel()
     private lateinit var fragmentChatBinding: FragmentChatBinding
+    private lateinit var bottomSheet: BottomSheetBehavior<FrameLayout>
+    private lateinit var messagesAdapter: MessagesAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        MessagesAdapter.bindEnlargeImageRequestListener(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,117 +51,148 @@ class ChatFragment : BaseFragment() {
         )
         fragmentChatBinding.apply {
             lifecycleOwner = this@ChatFragment
-            mViewModel = InjectorUtils.provideChatViewModel()
             viewModel = mViewModel
         }
         return fragmentChatBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        fragmentChatBinding.ripplePulse.startRippleAnimation()
+        bottomSheet = BottomSheetBehavior.from(fragmentChatBinding.chatStandardBottomSheet)
+        setBottomSheetStateChangeListener()
+        initMessagesRecyclerView()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observeChatActions()
+        observeMessages()
     }
 
     private fun observeChatActions() {
         mViewModel.chatActions.observe(viewLifecycleOwner) {
             when (it) {
                 ChatActions.ShowAttachmentsOption -> {
-                    Log.d(TAG, "Show Attachment Options Selected")
+                    Timber.d("Show Attachment Options Selected")
+                    bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
                 }
                 is ChatActions.SelectAttachment -> {
-                    Log.d(TAG, "Select Attachment: $it")
+                    Timber.d("Select Attachment: $it")
+                    // hide the bottom sheet
+                    bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+                    // delegate request to MediaChooser
                     when (it.attachmentTypes) {
                         AttachmentTypes.MEDIA -> {
-                            PhotoChooser(context = activity!!).openAttachmentBottomSheet()
-                            // todo bind the listener
+                            MediaChooser(context = requireActivity()).openAttachmentBottomSheet()
                         }
                         AttachmentTypes.FILE -> {
-                            selectFile()
-                            // todo bind the listener
+                            MediaChooser(context = requireActivity()).selectFile()
                         }
                         AttachmentTypes.CONTACT -> {
-                            selectContact()
-                            // todo bind the listener
+                            MediaChooser(context = requireActivity()).selectContact()
+                        }
+                        AttachmentTypes.LOCATION -> {
+                            // todo here
+                            context?.toast("Sharing location will become live soon!")
                         }
                     }
                 }
                 ChatActions.SendMessage -> {
-                    Log.d(TAG, "Send Message")
+                    Timber.d("Send Message")
                 }
                 ChatActions.TypingStarted -> {
-                    Log.d(TAG, "Started Typing")
+                    Timber.d("Started Typing")
                     fragmentChatBinding.sendButton.setImageDrawable(
                         ContextCompat.getDrawable(
-                            context!!,
+                            requireContext(),
                             R.drawable.send
                         )
                     )
                 }
                 ChatActions.TypingStopped -> {
-                    Log.d(TAG, "Typing Stopped")
+                    Timber.d("Typing Stopped")
                     fragmentChatBinding.sendButton.setImageDrawable(
                         ContextCompat.getDrawable(
-                            context!!,
+                            requireContext(),
                             R.drawable.microphone
                         )
                     )
                 }
                 ChatActions.RecordingStarted -> {
-                    Log.d(TAG, "Recording Started")
-                    fragmentChatBinding.ripplePulse.startRippleAnimation()
+                    Timber.d("Recording Started")
                 }
                 ChatActions.RecordingFinished -> {
-                    Log.d(TAG, "Recording Finished")
-                    fragmentChatBinding.ripplePulse.stopRippleAnimation()
+                    Timber.d("Recording Finished")
                 }
                 ChatActions.RecordingCanceled -> {
-                    Log.d(TAG, "Recording Canceled")
-                    fragmentChatBinding.ripplePulse.stopRippleAnimation()
+                    Timber.d("Recording Canceled")
                     // todo do something to indicate CANCEL
                 }
                 ChatActions.GoBack -> {
-                    Log.d(TAG, "Go Back")
-                    baseViewModel.popBack()
+                    Timber.d("Go Back")
+                    popBackToPrevious()
                 }
                 ChatActions.PermissionsMissing -> {
-                    Log.d(TAG, "Permissions missing...")
+                    Timber.d("Permissions missing...")
                     runWithPermissions(
                         Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
                     ) {}
                 }
             }
         }
     }
 
-    private fun selectFile() = this.runWithPermissions(
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    ) {
-        val intent = Intent().apply {
-            type = "*/*"
-            action = Intent.ACTION_GET_CONTENT
+    private fun observeMessages() {
+        mViewModel.messagesList.observe(viewLifecycleOwner) { list ->
+            if (::messagesAdapter.isInitialized)
+                messagesAdapter.submitList(list) {
+                    fragmentChatBinding.messagesList.scrollToPosition(if (list.isNotEmpty()) list.size - 1 else 0)
+                }
+            else Timber.d("Messages Adapter is not initialized yet!")
         }
-        this.startActivityForResult(intent, REQUEST_CODE_FILE)
     }
 
-    private fun selectContact() = this.runWithPermissions(
-        Manifest.permission.READ_CONTACTS
-    ) {
-        val intent = Intent().apply {
-            type = ContactsContract.Contacts.CONTENT_TYPE
-            action = Intent.ACTION_PICK
+    private fun initMessagesRecyclerView() {
+        messagesAdapter = MessagesAdapter(
+            requireContext(),
+            this@ChatFragment
+        )
+        fragmentChatBinding.messagesList.apply {
+            adapter = messagesAdapter
+            layoutManager = LinearLayoutManager(context)
         }
-        this.startActivityForResult(intent, REQUEST_CODE_CONTACT)
     }
 
-    companion object {
-        private const val TAG = "ChatFragment"
-        const val REQUEST_CODE_CONTACT = 33
-        const val REQUEST_CODE_FILE = 44
+    private fun setBottomSheetStateChangeListener() {
+        bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(p0: View, p1: Float) {
+                Timber.d("Bottom sheet slided")
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    fragmentChatBinding.rootContainer.apply {
+                        val dim: Drawable = ColorDrawable(Color.BLACK)
+                        dim.setBounds(0, 0, width, height)
+                        dim.alpha = (255 * 0.5.toFloat()).toInt()
+
+                        val overlay: ViewGroupOverlay = overlay
+                        overlay.add(dim)
+                        isClickable = false
+                    }
+                } else {
+                    fragmentChatBinding.rootContainer.apply {
+                        overlay.clear()
+                    }
+                }
+            }
+        })
+    }
+
+    override fun enlargeImage(imageURI: String) {
+        // open zoomable image view fragment
+        val bundle = bundleOf("imageURI" to imageURI)
+        navigateTo(ChatFragmentDirections.actionChatFragmentToZoomableImageViewFragment(imageURI), bundle)
     }
 }

@@ -5,7 +5,7 @@ import java.util.*
 
 /**
  * A class with static util methods.
- *  got this code in java from github(sendbird's repo)
+ *  got this code in java from github(sendbird's repo), added a few more functions myself
  */
 
 object DateUtils {
@@ -28,10 +28,47 @@ object DateUtils {
         return Integer.valueOf(dateFormat.format(timeInMillis))
     }
 
+    fun getCurrentMillis() : Long = Date().time
+
     fun getMinute(timeInMillis: Long): Int {
         val dateFormat = SimpleDateFormat("m", Locale.getDefault())
         return Integer.valueOf(dateFormat.format(timeInMillis))
     }
+
+    fun getFormattedDate(day: Int, month: Int, year: Int, pattern: String) : String {
+        val date =  GregorianCalendar(year, month - 1, day).time
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        return sdf.format(date)
+    }
+
+    fun convertDateToString(date: Date): String {
+        val format = SimpleDateFormat(AppConstants.DEFAULT_DATE_TIME_FORMAT, Locale.ENGLISH)
+        return format.format(date)
+    }
+
+    fun getCurrentTime(): String {
+        val sdf = SimpleDateFormat(AppConstants.DEFAULT_DATE_TIME_FORMAT, Locale.ENGLISH)
+        return sdf.format(Date())
+    }
+
+    fun getTimeForFilename() : String {
+        val sdf = SimpleDateFormat("dd_MM_YY__hh_mm_ss", Locale.ENGLISH)
+        return sdf.format(Date())
+    }
+
+    fun getToday() : String {
+        val sdf = SimpleDateFormat(AppConstants.DEFAULT_DATE_FORMAT, Locale.ENGLISH)
+        return sdf.format(Date())
+    }
+
+    fun getYesterday() : String {
+        val calender = Calendar.getInstance()
+        calender.add(Calendar.DATE, -1)
+        val yesterday = calender.time
+        val sdf = SimpleDateFormat(AppConstants.DEFAULT_DATE_FORMAT, Locale.ENGLISH)
+        return sdf.format(yesterday)
+    }
+
 
     /**
      * If the given time is of a different date, display the date.

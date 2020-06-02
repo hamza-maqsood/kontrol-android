@@ -6,23 +6,33 @@ import android.view.Window
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.grayhatdevelopers.kontrol.R
-import com.grayhatdevelopers.kontrol.utils.InjectorUtils
+import com.grayhatdevelopers.kontrol.di.kodeinViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(), KodeinAware, CoroutineScope {
 
-    lateinit var baseViewModel: BaseViewModel
+    override val kodein: Kodein by closestKodein()
+
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
+
+    private val baseViewModel: BaseViewModel by kodeinViewModel()
     private lateinit var mLoadingDialog: Dialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        baseViewModel = InjectorUtils.provideBaseViewModel()
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        baseViewModel.navigationCommand.observe(activity!!) { command: NavigationCommand? ->
+        baseViewModel.navigationCommand.observe(requireActivity()) { command: NavigationCommand? ->
             when (command!!) {
                 is NavigationCommand.To -> {
                     findNavController().navigate(
@@ -42,8 +52,16 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
+    protected fun navigateTo(direction: NavDirections, bundle: Bundle? = null) {
+        baseViewModel.navigate(direction, bundle)
+    }
+
+    protected fun popBackToPrevious() {
+        baseViewModel.popBack()
+    }
+
     protected fun showLoadingDialog(message: String = "Please Wait") {
-        mLoadingDialog = Dialog(context!!)
+        mLoadingDialog = Dialog(requireContext())
         mLoadingDialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             window?.setBackgroundDrawableResource(android.R.color.transparent)
@@ -57,7 +75,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected fun showSuccessDialog(listener: SuccessDialogClickListener) {
-        val dialog = Dialog(context!!)
+        val dialog = Dialog(requireContext())
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             window?.setBackgroundDrawableResource(android.R.color.transparent)

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "600555899385",
+    "firebase_url": "https://kontrol-e960f.firebaseio.com",
+    "project_id": "kontrol-e960f",
+    "storage_bucket": "kontrol-e960f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600555899385:android:f0cb8a29ffe7a9883f1528",
+        "android_client_info": {
+          "package_name": "com.grayhatdevelopers.kontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600555899385-dtk8gh539dg8qs1fjmlvp5iddiqltuhr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grayhatdevelopers.kontrol",
+            "certificate_hash": "6b5d6c3fe470e8155d17279dea49b45fd6cd236a"
+          }
+        },
+        {
+          "client_id": "600555899385-1v7dg86tb7ngmk6usv7jtpnq2vm71hsk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRub6kDVbe6reaF1taYcjsoTJJK1YbiWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600555899385-1v7dg86tb7ngmk6usv7jtpnq2vm71hsk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

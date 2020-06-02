@@ -11,7 +11,7 @@
 
     <item android:state_pressed="true" android:state_focused="false">
         <shape>
-            <solid android:color="@color/white" />
+            <solid android:color="@color/inactive_text" />
             <stroke android:width="2.3dp" android:color="@color/black" />
             <corners android:radius="24dp" />
         </shape>

@@ -7,8 +7,8 @@
     <gradient
         android:angle="270"
         android:centerColor="@color/inactive_text"
-        android:endColor="#dedede"
-        android:startColor="#dedede" />
+        android:endColor="@color/inactive_text"
+        android:startColor="@color/inactive_text" />
 
 
     <corners

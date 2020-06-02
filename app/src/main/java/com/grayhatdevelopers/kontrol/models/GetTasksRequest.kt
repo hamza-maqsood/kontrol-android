@@ -11,5 +11,7 @@ open class GetTasksRequest(
     val shops: ArrayList<String> = ArrayList(), /* list of shops to include in the list, empty list indicates all shops */
     val taskTypes: ArrayList<TaskType> = ArrayList(), /* list of task types to include in the list, empty list indicates all types */
     val tasksModels: ArrayList<TaskModel> = ArrayList(), /* list of task models to include in the list, empty list indicates all models */
-    val taskStatuses: ArrayList<TaskStatus> = ArrayList() /* list of task statues to include in the list, empty list indicates all statuses */
+    val taskStatuses: ArrayList<TaskStatus> = ArrayList(), /* list of task statues to include in the list, empty list indicates all statuses */
+    val startIndex: Int = 0,
+    val batchSize: Int = -1
 )

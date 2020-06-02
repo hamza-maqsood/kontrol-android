@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-
     <data>
-
+        <import type="com.grayhatdevelopers.kontrol.models.message.MessageType"/>
+        <import type="com.grayhatdevelopers.kontrol.models.message.MessageState"/>
         <variable
             name="message"
-            type="com.grayhatdevelopers.kontrol.models.message.Message" />
+            type="com.grayhatdevelopers.kontrol.database.messages.MessageEntity" />
 
         <variable
             name="viewModel"
@@ -18,13 +18,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/shape_bg_outgoing_bubble"
             android:paddingEnd="32dp"
@@ -38,34 +38,39 @@
 
             <rm.com.audiowave.AudioWaveView
                 android:id="@+id/audio_wave_msg"
-                android:layout_width="265dp"
-                android:layout_height="70dp"
+                android:layout_width="205dp"
+                android:layout_height="32dp"
                 android:layout_marginStart="32dp"
-                bind:decideVisibility="@{message.messageType}"
-                app:animateExpansion="false"
+                android:layout_marginTop="16dp"
+                app:animateExpansion="true"
+                app:chunkHeight="24dp"
+                app:chunkRadius="1dp"
+                app:chunkSpacing="1dp"
+                app:chunkWidth="3dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:minChunkHeight="2dp"
-                app:touchable="true"
-                app:waveColor="@color/colorPrimary" />
+                app:progress="@{viewModel.audioProgress}"
+                app:touchable="false"
+                app:waveColor="@color/colorPrimary"
+                bind:decideVisibility="@{message.messageType}" />
 
             <TextView
                 android:id="@+id/msg_text"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                bind:decideVisibility="@{message.messageType}"
                 android:fontFamily="@font/cabin"
+                android:text="@{message.messageData}"
                 android:textColor="@android:color/black"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/audio_wave_msg" />
+                app:layout_constraintTop_toBottomOf="@+id/audio_wave_msg"
+                bind:decideVisibility="@{message.messageType}" />
 
             <ImageView
                 android:id="@+id/imageView8"
@@ -74,22 +79,58 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:scaleType="fitXY"
-                bind:decideVisibility="@{message.messageType}"
+                android:onClick="@{() -> viewModel.enlargeImage()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/msg_text"
+                bind:decideVisibility="@{message.messageType}"
+                bind:imageUri="@{message.messageData}"
                 tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/msg_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/messageStatusIndicator"
+                app:layout_constraintTop_toBottomOf="@+id/textView71"
+                bind:formatTime="@{message.time}"
+                tools:text="12:39 PM" />
+
+            <ImageView
+                android:id="@+id/messageStatusIndicator"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/done_black"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/msg_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/msg_time"
+                tools:ignore="ContentDescription"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView71"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="12:39 PM"
-                android:textColor="@color/inactive_text"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/cabin"
+                android:gravity="bottom"
+                android:singleLine="false"
+                android:text="@{message.messageData}"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView8"
-                tools:ignore="HardcodedText" />
+                bind:decideStartIcon="@{message.messageType}" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -100,32 +141,56 @@
             android:layout_height="wrap_content"
             android:background="@drawable/white_circle_filled"
             android:translationX="16dp"
-            bind:decideVisibility="@{message.messageType}"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
             app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
             app:layout_constraintTop_toTopOf="@+id/constraintLayout">
+
+            <com.github.rahatarmanahmed.cpv.CircularProgressView
+                android:id="@+id/progress_view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cpv_animAutostart="true"
+                app:cpv_indeterminate="false"
+                app:cpv_progress="85"
+                app:cpv_maxProgress="100"
+                app:cpv_startAngle="0"
+                app:cpv_animDuration="0"
+                app:cpv_animSyncDuration="0"
+                app:cpv_animSwoopDuration="0"
+                app:cpv_thickness="3dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:progressDrawable="@drawable/determinate_circle"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/voice_msg_controller"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
+                android:onClick="@{() -> viewModel.playAudio()}"
+                android:src="@drawable/upload_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/download_icon_purple"
                 tools:ignore="ContentDescription" />
+
 
             <ProgressBar
                 android:id="@+id/voice_msg_pb"
-                style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:indeterminateTint="@color/colorPrimary"
+                android:theme="@style/ProgressBarStyle"
+                tools:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -1,16 +1,22 @@
 package com.grayhatdevelopers.kontrol.ui.fragments.login
 
-import android.util.Log
+import android.content.Context
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.grayhatdevelopers.kontrol.models.LoginCredentials
-import com.grayhatdevelopers.kontrol.utils.SingleLiveEvent
 import com.grayhatdevelopers.kontrol.ui.fragments.base.BaseViewModel
 import com.grayhatdevelopers.kontrol.utils.AppConstants
+import com.grayhatdevelopers.kontrol.utils.SingleLiveEvent
+import com.grayhatdevelopers.kontrol.utils.isInternetAvailable
 import kotlinx.coroutines.launch
+import org.kodein.di.direct
+import org.kodein.di.generic.instance
+import timber.log.Timber
 
-class LoginViewModel : BaseViewModel() {
+class LoginViewModel(
+    context: Context
+) : BaseViewModel(context) {
 
     val loginActions: SingleLiveEvent<LoginActions> = SingleLiveEvent()
 
@@ -37,9 +43,14 @@ class LoginViewModel : BaseViewModel() {
         // either password or username was missing
             loginActions.postValue(LoginActions.MissingInformation)
         else {
-            // proceed login
-            loginActions.postValue(LoginActions.ProceedLogin)
-            login(username, password)
+            if (isInternetAvailable(kodein.direct.instance())) {
+                // proceed login
+                loginActions.postValue(LoginActions.ProceedLogin)
+                login(username, password)
+            } else {
+                // internet connection error
+                loginActions.postValue(LoginActions.LoginFailed("Make sure you've a stable internet connection!"))
+            }
         }
     }
 
@@ -48,7 +59,7 @@ class LoginViewModel : BaseViewModel() {
             val response = repo.loginRider(LoginCredentials(username, password))
             when (response.code()) {
                 AppConstants.ACCEPTED -> {
-                    Log.d(TAG, "HTTP STATUS CODE : ACCEPTED  (202)")
+                    Timber.d("HTTP STATUS CODE : ACCEPTED  (202)")
                     // in case of successful login
                     val rider = response.body()!!
                     repo.updateRider(rider)
@@ -57,20 +68,16 @@ class LoginViewModel : BaseViewModel() {
 
                 AppConstants.NOT_FOUND -> {
                     // in case of no internet connection
-                    Log.d(TAG, "HTTP STATUS CODE : NOT_FOUND  (404)")
+                    Timber.d("HTTP STATUS CODE : NOT_FOUND  (404)")
                     loginActions.postValue(LoginActions.LoginFailed("Make sure you have a stable internet connection!"))
                 }
 
                 AppConstants.UNAUTHORIZED -> {
                     // in case of invalid login credentials
-                    Log.d(TAG, "HTTP STATUS CODE : UNAUTHORIZED  (401)")
+                    Timber.d("HTTP STATUS CODE : UNAUTHORIZED  (401)")
                     loginActions.postValue(LoginActions.LoginFailed("Invalid username/password"))
                 }
             }
         }
-    }
-
-    companion object {
-        const val TAG = "LoginViewModel"
     }
 }

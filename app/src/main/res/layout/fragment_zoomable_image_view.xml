@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.grayhatdevelopers.kontrol.ui.fragments.zoomableimageview.ZoomableImageViewViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black">
+
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.goBack()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/back_white"
+            tools:ignore="ContentDescription" />
+
+        <com.grayhatdevelopers.kontrol.views.ZoomableImageView
+            android:id="@+id/zoomable_image_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            bind:imageUri="@{viewModel.imageURI}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView11"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

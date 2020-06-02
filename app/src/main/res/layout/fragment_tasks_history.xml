@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.grayhatdevelopers.kontrol.ui.fragments.taskshistory.TasksHistoryViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:onClick="@{() -> viewModel.goBack()}"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView15"
+            app:srcCompat="@drawable/black_arrow_back"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/imageView15"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+            app:layout_constraintEnd_toStartOf="@+id/imageView16"
+            app:layout_constraintTop_toTopOf="@+id/imageView16"
+            app:srcCompat="@drawable/search_black"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/black_dots"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/textView72"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cabin"
+            android:text="@string/drafts"
+            android:textColor="@color/actual_black"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView15"
+            app:layout_constraintEnd_toStartOf="@+id/imageView15"
+            app:layout_constraintStart_toEndOf="@+id/imageView14"
+            app:layout_constraintTop_toTopOf="@+id/imageView15" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/drafts_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView14"
+            tools:listitem="@layout/item_active_task" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

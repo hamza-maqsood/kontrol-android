@@ -1,5 +1,6 @@
 package com.grayhatdevelopers.kontrol.ui.fragments.base
 
+import android.content.Context
 import android.os.Bundle
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
@@ -7,15 +8,25 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import com.grayhatdevelopers.kontrol.repo.Repository
 import com.grayhatdevelopers.kontrol.utils.SingleLiveEvent
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
-open class BaseViewModel : ViewModel(), Observable {
+open class BaseViewModel(
+    app: Context
+) : ViewModel(),
+    Observable,
+    KodeinAware {
+
+    override val kodein: Kodein by closestKodein(context = app)
+
+    val repo: Repository by instance<Repository>()
 
     private val callbacks: PropertyChangeRegistry by lazy { PropertyChangeRegistry() }
 
     val navigationCommand: SingleLiveEvent<NavigationCommand> = SingleLiveEvent()
     val launchIntentCommand: SingleLiveEvent<LaunchIntentCommand> = SingleLiveEvent()
-
-    val repo: Repository = Repository.getInstance()
 
     fun navigate(directions: NavDirections, bundle: Bundle?) {
         navigationCommand.postValue(NavigationCommand.To(directions, bundle))

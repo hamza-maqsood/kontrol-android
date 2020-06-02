@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.grayhatdevelopers.kontrol.ui.fragments.executetasks.ExecutePaymentsBaseViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/verify_confirm_bottom_sheet">
+
+        <TextView
+            android:id="@+id/message_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="64dp"
+            android:fontFamily="@font/cabin"
+            android:gravity="center"
+            android:text="@string/enter_the_verification_code_sent_to_the_provided_phone_number"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:indeterminateDrawable="@drawable/circular_loading"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+            app:layout_constraintEnd_toEndOf="@+id/imageView8"
+            app:layout_constraintStart_toStartOf="@+id/imageView8"
+            app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="32dp"
+            android:padding="12dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/textView69"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/cabin"
+            android:padding="2dp"
+            android:text="@{viewModel.enteredPhoneNumber}"
+            android:textStyle="bold|italic"
+            app:layout_constraintEnd_toEndOf="@+id/message_tv"
+            app:layout_constraintStart_toStartOf="@+id/message_tv"
+            app:layout_constraintTop_toBottomOf="@+id/message_tv" />
+
+        <com.grayhatdevelopers.kontrol.views.OTPPinView
+            android:id="@+id/otp_pin_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView70"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView69" />
+
+        <TextView
+            android:id="@+id/textView70"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/cabin"
+            android:padding="2dp"
+            bind:goneUnless="@{viewModel.isPinNotCorrect()}"
+            android:text="@string/pin_isn_t_correct"
+            android:textColor="@color/error"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/otp_pin_view" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

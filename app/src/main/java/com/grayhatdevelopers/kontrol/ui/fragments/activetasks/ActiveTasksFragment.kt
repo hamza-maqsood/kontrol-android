@@ -1,7 +1,7 @@
 package com.grayhatdevelopers.kontrol.ui.fragments.activetasks
 
+import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.grayhatdevelopers.kontrol.R
 import com.grayhatdevelopers.kontrol.adapters.tasks.TasksAdapter
 import com.grayhatdevelopers.kontrol.databinding.FragmentActiveTasksBinding
-import com.grayhatdevelopers.kontrol.repo.Repository
+import com.grayhatdevelopers.kontrol.di.kodeinViewModel
 import com.grayhatdevelopers.kontrol.ui.dialogs.Dialog
 import com.grayhatdevelopers.kontrol.ui.fragments.base.BaseFragment
-import com.grayhatdevelopers.kontrol.utils.InjectorUtils
 import com.grayhatdevelopers.kontrol.utils.toast
+import timber.log.Timber
+import java.util.*
 
 class ActiveTasksFragment : BaseFragment() {
 
-    private lateinit var mViewModel: ActiveTasksViewModel
+    private val mViewModel: ActiveTasksViewModel by kodeinViewModel()
     private lateinit var activeTasksFragmentBinding: FragmentActiveTasksBinding
     private lateinit var tasksAdapter: TasksAdapter
 
@@ -37,7 +38,6 @@ class ActiveTasksFragment : BaseFragment() {
         )
         activeTasksFragmentBinding.apply {
             lifecycleOwner = this@ActiveTasksFragment
-            mViewModel = InjectorUtils.provideActiveTasksViewModel()
             viewModel = mViewModel
         }
         return activeTasksFragmentBinding.root
@@ -59,7 +59,7 @@ class ActiveTasksFragment : BaseFragment() {
     }
 
     private fun logoutRider() {
-        Dialog(context!!, Dialog.DialogType.ERROR).apply {
+        Dialog(requireContext(), Dialog.DialogType.ERROR).apply {
             title = "Session Expired!"
             message = "Your login session has expired. \nLogin again."
             positiveButtonText = "Logout"
@@ -67,7 +67,7 @@ class ActiveTasksFragment : BaseFragment() {
             setOnPositiveButtonClickedListener(object : Dialog.OnPositiveButtonClicked {
                 override fun onPositiveButtonClicked() {
                     dismiss()
-                    baseViewModel.navigate(ActiveTasksFragmentDirections.actionActiveTasksFragmentToLoginFragment())
+                    navigateTo(ActiveTasksFragmentDirections.actionActiveTasksFragmentToLoginFragment())
                 }
             })
             show()
@@ -78,19 +78,19 @@ class ActiveTasksFragment : BaseFragment() {
         mViewModel.taskLoadingResults.observe(viewLifecycleOwner) {
             when (it) {
                 TaskLoadingResults.LoadingTasks -> {
-                    Log.d(TAG, "Task loading started")
+                    Timber.d("Task loading started")
                 }
                 TaskLoadingResults.LoginSessionExpired -> {
-                    Log.d(TAG, "Rider login session has been expired!")
+                    Timber.d("Rider login session has been expired!")
                     logoutRider()
                 }
 
                 is TaskLoadingResults.LoadingFinished -> {
                     if (it.isSuccessful) {
                         // tasks were loaded successfully
-                        Log.d(TAG, "Task loaded successfully")
+                        Timber.d("Task loaded successfully")
                     } else {
-                        Log.d(TAG, "Task loading started")
+                        Timber.d("Task loading started")
                         context?.toast("Make sure you've an active internet connection!")
                     }
                 }
@@ -100,6 +100,7 @@ class ActiveTasksFragment : BaseFragment() {
 
     private fun populateRecyclerView() {
         tasksAdapter = TasksAdapter(
+            requireContext(),
             this@ActiveTasksFragment
         )
         activeTasksFragmentBinding.tasksList.apply {
@@ -109,8 +110,8 @@ class ActiveTasksFragment : BaseFragment() {
 
         tasksAdapter.apply {
             // observe data changes in the list
-            Repository.getInstance().tasks.observe(viewLifecycleOwner) {
-                this.submitList(it)
+            mViewModel.activeTasks.observe(viewLifecycleOwner) {
+                submitList(it)
             }
         }
     }
@@ -119,38 +120,47 @@ class ActiveTasksFragment : BaseFragment() {
         mViewModel.activeTaskActions.observe(viewLifecycleOwner) {
             when (it) {
                 ActiveTaskActions.ShowSortOptions -> {
-                    Log.d(TAG, "Show Sort Clicked")
+                    Timber.d("Show Sort Clicked")
                 }
                 ActiveTaskActions.ShowFilterOptions -> {
-                    Log.d(TAG, "Show Filter Options Clicked")
+                    Timber.d("Show Filter Options Clicked")
                 }
                 ActiveTaskActions.ShowCalenderOptions -> {
-                    Log.d(TAG, "Show Calender Clicked")
+                    Timber.d("Show Calender Clicked")
+                    val c = Calendar.getInstance()
+                    val selectedYear = c.get(Calendar.YEAR)
+                    val selectedMonth = c.get(Calendar.MONTH)
+                    val selectedDay = c.get(Calendar.DAY_OF_MONTH)
+                    DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                        mViewModel.updateDate(dayOfMonth, monthOfYear, year)
+                    }, selectedYear, selectedMonth, selectedDay).apply {
+                        datePicker.maxDate = System.currentTimeMillis()
+                        show()
+                    }
                 }
                 ActiveTaskActions.ShowSearchOptions -> {
-                    Log.d(TAG, "Active Search Clicked")
+                    Timber.d("Active Search Clicked")
                 }
                 ActiveTaskActions.ShowMenuOptions -> {
-                    Log.d(TAG, "Show Menu Options Clicked")
+                    Timber.d("Show Menu Options Clicked")
                 }
                 ActiveTaskActions.GoBack -> {
-                    Log.d(TAG, "Go Back Clicked")
-                    baseViewModel.popBack()
+                    Timber.d("Go Back Clicked")
+                    popBackToPrevious()
                 }
                 is ActiveTaskActions.ExecuteTask -> {
-                    Log.d(TAG, "Execute Task Clicked")
+                    Timber.d("Execute Task Clicked")
                     val bundle = bundleOf("task" to it.task)
                     val direction =
                         ActiveTasksFragmentDirections.actionActiveTasksFragmentToExecuteTaskFragment(
                             it.task
                         )
-                    baseViewModel.navigate(direction, bundle)
+                    navigateTo(direction, bundle)
+                }
+                ActiveTaskActions.InternetConnectionError -> {
+                    context?.toast("Make sure you've a stable internet connection!")
                 }
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "ActiveTasksFragment"
     }
 }

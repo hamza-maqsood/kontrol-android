@@ -2,7 +2,6 @@ package com.grayhatdevelopers.kontrol.ui.fragments.chat
 
 sealed class ChatActions {
     object ShowAttachmentsOption : ChatActions()
-
     object SendMessage : ChatActions()
     object TypingStarted : ChatActions()
     object TypingStopped : ChatActions()

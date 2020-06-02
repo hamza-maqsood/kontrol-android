@@ -6,14 +6,13 @@ import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
 import android.os.Build
-import android.telephony.SmsManager
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.grayhatdevelopers.kontrol.R
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
-import java.lang.StringBuilder
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -125,14 +124,14 @@ fun formatTimeToMinutesAndSeconds(timeInMillis: Long)
  */
 fun Context.sendSMS(msg: String, phone: String) = this.runWithPermissions(
     Manifest.permission.SEND_SMS,
-    Manifest.permission.RECEIVE_SMS,
-    Manifest.permission.READ_SMS,
     Manifest.permission.READ_PHONE_STATE
 ) {
-    try {
-        val manager = SmsManager.getDefault()
-        manager.sendTextMessage(phone, null, msg, null, null)
+    try {   // TODO here
+//        val manager = SmsManager.getDefault()
+//        manager.sendTextMessage(phone, null, msg, null, null)
+        Timber.d("Send sms successfully: ---$phone  ---$msg")
     } catch (ex: Exception) {
+        Timber.d(ex)
         ex.printStackTrace()
     }
 }

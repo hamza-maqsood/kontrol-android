@@ -5,5 +5,6 @@ sealed class ExecuteTaskErrors {
     object VerificationMethodNotSelected : ExecuteTaskErrors()
     object NetworkError : ExecuteTaskErrors()
     object MediaPermissionsNotGranted : ExecuteTaskErrors()
+    object InvalidTask : ExecuteTaskErrors()
     object SMSVerificationFailed : ExecuteTaskErrors()
 }

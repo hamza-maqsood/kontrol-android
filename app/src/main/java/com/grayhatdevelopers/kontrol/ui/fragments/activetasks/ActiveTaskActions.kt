@@ -9,5 +9,6 @@ sealed class ActiveTaskActions {
     object ShowSearchOptions : ActiveTaskActions()
     object ShowMenuOptions : ActiveTaskActions()
     object GoBack : ActiveTaskActions()
+    object InternetConnectionError: ActiveTaskActions()
     data class ExecuteTask(val task: Task) : ActiveTaskActions()
 }

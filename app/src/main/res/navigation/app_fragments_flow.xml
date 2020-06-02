@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_fragments_flow"
-    app:startDestination="@id/chatFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
+        tools:layout="@layout/fragment_login"
         android:name="com.grayhatdevelopers.kontrol.ui.fragments.login.LoginFragment"
         android:label="LoginFragment">
         <action
@@ -14,6 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
+        tools:layout="@layout/fragment_dashboard"
         android:name="com.grayhatdevelopers.kontrol.ui.fragments.dashboard.DashboardFragment"
         android:label="DashboardFragment">
         <action
@@ -37,6 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/activeTasksFragment"
+        tools:layout="@layout/fragment_active_tasks"
         android:name="com.grayhatdevelopers.kontrol.ui.fragments.activetasks.ActiveTasksFragment"
         android:label="ActiveTasksFragment">
         <action
@@ -48,26 +52,48 @@
     </fragment>
     <fragment
         android:id="@+id/createPaymentFragment"
+        tools:layout="@layout/fragment_create_new_payment"
         android:name="com.grayhatdevelopers.kontrol.ui.fragments.createpayment.CreatePaymentFragment"
-        android:label="CreatePaymentFragment" />
+        android:label="CreatePaymentFragment" >
+        <argument
+            android:name="clients"
+            app:argType="com.grayhatdevelopers.kontrol.models.client.ClientsList" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
+        tools:layout="@layout/fragment_profile"
         android:name="com.grayhatdevelopers.kontrol.ui.fragments.profile.ProfileFragment"
         android:label="ProfileFragment" />
     <fragment
         android:id="@+id/tasksHistoryFragment"
+        tools:layout="@layout/fragment_tasks_history"
         android:name="com.grayhatdevelopers.kontrol.ui.fragments.taskshistory.TasksHistoryFragment"
         android:label="TasksHistoryFragment" />
     <fragment
         android:id="@+id/chatFragment"
+        tools:layout="@layout/fragment_chat"
         android:name="com.grayhatdevelopers.kontrol.ui.fragments.chat.ChatFragment"
-        android:label="ChatFragment" />
+        android:label="ChatFragment" >
+        <action
+            android:id="@+id/action_chatFragment_to_zoomableImageViewFragment"
+            app:destination="@id/zoomableImageViewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/executeTaskFragment"
+        tools:layout="@layout/fragment_execute_task"
         android:name="com.grayhatdevelopers.kontrol.ui.fragments.executetasks.ExecuteTaskFragment"
         android:label="ExecuteTaskFragment">
         <argument
             android:name="task"
             app:argType="com.grayhatdevelopers.kontrol.models.task.Task" />
+    </fragment>
+    <fragment
+        android:id="@+id/zoomableImageViewFragment"
+        tools:layout="@layout/fragment_zoomable_image_view"
+        android:name="com.grayhatdevelopers.kontrol.ui.fragments.zoomableimageview.ZoomableImageViewFragment"
+        android:label="ZoomableImageViewFragment" >
+        <argument
+            android:name="imageURI"
+            app:argType="string" />
     </fragment>
 </navigation>

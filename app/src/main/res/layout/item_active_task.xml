@@ -18,12 +18,22 @@
             name="position"
             type="Integer" />
     </data>
+    <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:neomorph_view_type="rectangular"
+        app:neomorph_shadow_type="inner"
+        app:neomorph_elevation="0dp"
+         app:neomorph_corner_radius="16dp"
+        app:neomorph_background_color="@color/neomorph_background_color"
+        app:neomorph_shadow_color="@color/neomorph_shadow_color"
+        app:neomorph_highlight_color="@color/neomorph_highlight_color">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:onClick="@{() -> viewModel.executeTask(task)}"
         android:outlineProvider="none">
 
@@ -32,7 +42,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:background="@drawable/white_circle_filled"
-            android:elevation="8dp"
+            android:elevation="16dp"
             android:gravity="center"
             android:text="@{position.toString()}"
             android:textSize="14sp"
@@ -59,6 +69,7 @@
                 android:layout_marginBottom="4dp"
                 android:singleLine="true"
                 android:text="@{task.shopName}"
+                android:ellipsize="end"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textView17"
@@ -75,7 +86,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView16"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView16"
-                app:srcCompat="@drawable/double_tick_icon"
+                app:srcCompat="@drawable/single_tick_icon"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -92,4 +103,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
 </layout>

@@ -38,16 +38,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/materialCardView" />
 
-            <LinearLayout
+            <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
                 android:id="@+id/materialCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                app:neomorph_view_type="rectangular"
+                app:neomorph_shadow_type="inner"
+                app:neomorph_elevation="4dp"
+                app:neomorph_corner_radius="16dp"
+                app:neomorph_background_color="@color/white"
+                app:neomorph_shadow_color="@color/white"
+                app:neomorph_highlight_color="@color/white"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/dashboard_top_card_bg"
-                android:elevation="16dp"
-                app:cardCornerRadius="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -215,7 +217,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </LinearLayout>
+            </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
 
             <LinearLayout
                 android:id="@+id/bottom_container"
@@ -236,162 +238,239 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="5">
 
-                    <LinearLayout
-                        android:id="@+id/materialCardView2"
-                        android:layout_width="0dp"
+
+                    <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
+                        android:id="@+id/neomorphFrameLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="32dp"
-                        android:background="@drawable/dashboard_options_bg"
-                        android:elevation="32dp"
-                        android:onClick="@{() -> viewModel.openCreateNewPaymentFragment()}"
-                        android:outlineProvider="none"
-                        app:layout_constraintEnd_toEndOf="@+id/materialCardView5"
+                        android:translationX="-21dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:neomorph_background_color="@color/neomorph_background_color"
+                        app:neomorph_corner_radius="21dp"
+                        app:neomorph_elevation="4dp"
+                        app:neomorph_highlight_color="@color/neomorph_highlight_color"
+                        app:neomorph_shadow_color="@color/neomorph_shadow_color"
+                        app:neomorph_shadow_type="outer"
+                        app:neomorph_view_type="rectangular">
 
-                        <TextView
-                            android:id="@+id/new_task_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/plus_icon"
-                            android:gravity="center"
-                            android:paddingStart="32dp"
-                            android:paddingTop="8dp"
-                            android:paddingEnd="32dp"
-                            android:paddingBottom="8dp"
-                            android:text="     Create Payment"
-                            tools:ignore="HardcodedText"
-                            tools:layout_editor_absoluteX="23dp"
-                            tools:layout_editor_absoluteY="359dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/materialCardView3"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/dashboard_options_bg"
-                        android:elevation="32dp"
-                        android:outlineProvider="none"
-                        android:translationZ="16dp"
-                        app:layout_constraintEnd_toEndOf="@+id/materialCardView5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
-
-                        <TextView
-                            android:id="@+id/active_tasks_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/tasks_icon"
-                            android:gravity="center"
-                            android:onClick="@{() -> viewModel.openActiveTasksFragment()}"
-                            android:paddingStart="32dp"
-                            android:paddingTop="8dp"
-                            android:paddingEnd="32dp"
-                            android:paddingBottom="8dp"
-                            android:text="     Active Tasks"
-                            tools:ignore="HardcodedText"
-                            tools:layout_editor_absoluteX="23dp"
-                            tools:layout_editor_absoluteY="359dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/materialCardView4"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/dashboard_options_bg"
-                        android:elevation="32dp"
-                        android:onClick="@{() -> viewModel.openTasksHistoryFragment()}"
-                        android:outlineProvider="none"
-                        app:layout_constraintEnd_toEndOf="@+id/materialCardView5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/materialCardView3">
-
-                        <TextView
-                            android:id="@+id/task_history_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/history_icon"
-                            android:gravity="center"
-                            android:paddingStart="32dp"
-                            android:paddingTop="8dp"
-                            android:paddingEnd="32dp"
-                            android:paddingBottom="8dp"
-                            android:text="     My Tasks History"
-                            tools:ignore="HardcodedText"
-                            tools:layout_editor_absoluteX="23dp"
-                            tools:layout_editor_absoluteY="359dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/materialCardView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/dashboard_options_bg"
-                        android:elevation="32dp"
-                        android:onClick="@{() -> viewModel.openChatFragment()}"
-                        android:outlineProvider="none"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/materialCardView4">
-
-                        <TextView
-                            android:id="@+id/chat_mode_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/dashboard_options_bg"
-                            android:drawableStart="@drawable/info_icon"
-                            android:gravity="center"
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/materialCardView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:elevation="32dp"
+                            android:onClick="@{() -> viewModel.openCreateNewPaymentFragment()}"
                             android:outlineProvider="none"
-                            android:paddingStart="32dp"
-                            android:paddingTop="8dp"
-                            android:paddingEnd="32dp"
-                            android:paddingBottom="8dp"
-                            android:text="     Switch To Chat Mode"
-                            tools:ignore="HardcodedText"
-                            tools:layout_editor_absoluteX="23dp"
-                            tools:layout_editor_absoluteY="359dp" />
+                            android:translationZ="32dp"
+                            app:cardCornerRadius="21dp"
+                            tools:layout_editor_absoluteY="32dp">
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/new_task_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/plus_icon"
+                                android:gravity="center"
+                                android:paddingStart="36dp"
+                                android:paddingTop="8dp"
+                                android:paddingEnd="32dp"
+                                android:paddingBottom="8dp"
+                                android:singleLine="true"
+                                android:text="     Create Payment"
+                                tools:ignore="HardcodedText"
+                                tools:layout_editor_absoluteX="23dp"
+                                tools:layout_editor_absoluteY="359dp" />
 
-                    <LinearLayout
-                        android:id="@+id/linearLayout"
-                        android:layout_width="0dp"
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
+
+                    <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
+                        android:id="@+id/neomorphFrameLayout5"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="32dp"
-                        android:background="@drawable/sign_out_option_bg"
-                        android:elevation="32dp"
-                        android:onClick="@{() -> viewModel.logoutUser()}"
-                        android:outlineProvider="none"
+                        android:translationX="-21dp"
+                        app:layout_constraintTop_toBottomOf="@+id/neomorphFrameLayout"
+                        app:neomorph_background_color="@color/neomorph_background_color"
+                        app:neomorph_corner_radius="21dp"
+                        app:neomorph_elevation="4dp"
+                        app:neomorph_highlight_color="@color/neomorph_highlight_color"
+                        app:neomorph_shadow_color="@color/neomorph_shadow_color"
+                        app:neomorph_shadow_type="outer"
+                        app:neomorph_view_type="rectangular">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/materialCardView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:elevation="32dp"
+                            android:outlineProvider="none"
+                            android:translationZ="16dp"
+                            app:cardCornerRadius="21dp"
+                            tools:layout_editor_absoluteY="85dp">
+
+                            <TextView
+                                android:id="@+id/active_tasks_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/tasks_icon"
+                                android:gravity="center"
+                                android:onClick="@{() -> viewModel.openActiveTasksFragment()}"
+                                android:paddingStart="36dp"
+                                android:paddingTop="8dp"
+                                android:paddingEnd="32dp"
+                                android:paddingBottom="8dp"
+                                android:singleLine="true"
+                                android:text="     Active Tasks"
+                                tools:ignore="HardcodedText"
+                                tools:layout_editor_absoluteX="23dp"
+                                tools:layout_editor_absoluteY="359dp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
+
+                    <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
+                        android:id="@+id/neomorphFrameLayout4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:translationX="-21dp"
+                        app:layout_constraintTop_toBottomOf="@+id/neomorphFrameLayout5"
+                        app:neomorph_background_color="@color/neomorph_background_color"
+                        app:neomorph_corner_radius="21dp"
+                        app:neomorph_elevation="4dp"
+                        app:neomorph_highlight_color="@color/neomorph_highlight_color"
+                        app:neomorph_shadow_color="@color/neomorph_shadow_color"
+                        app:neomorph_shadow_type="outer"
+                        app:neomorph_view_type="rectangular">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/materialCardView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:elevation="32dp"
+                            android:onClick="@{() -> viewModel.openTasksHistoryFragment()}"
+                            android:outlineProvider="none"
+                            app:cardCornerRadius="21dp"
+                            tools:layout_editor_absoluteX="10dp"
+                            tools:layout_editor_absoluteY="136dp">
+
+                            <TextView
+                                android:id="@+id/task_history_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/history_icon"
+                                android:gravity="center"
+                                android:paddingStart="36dp"
+                                android:paddingTop="8dp"
+                                android:paddingEnd="32dp"
+                                android:paddingBottom="8dp"
+                                android:singleLine="true"
+                                android:text="     My Tasks History"
+                                tools:ignore="HardcodedText"
+                                tools:layout_editor_absoluteX="23dp"
+                                tools:layout_editor_absoluteY="359dp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
+
+                    <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
+                        android:id="@+id/neomorphFrameLayout3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:translationX="-21dp"
+                        app:layout_constraintTop_toBottomOf="@+id/neomorphFrameLayout4"
+                        app:neomorph_background_color="@color/neomorph_background_color"
+                        app:neomorph_corner_radius="21dp"
+                        app:neomorph_elevation="4dp"
+                        app:neomorph_highlight_color="@color/neomorph_highlight_color"
+                        app:neomorph_shadow_color="@color/neomorph_shadow_color"
+                        app:neomorph_shadow_type="outer"
+                        app:neomorph_view_type="rectangular">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/materialCardView5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:elevation="32dp"
+                            android:onClick="@{() -> viewModel.openChatFragment()}"
+                            android:outlineProvider="none"
+                            app:cardCornerRadius="21dp"
+                            tools:layout_editor_absoluteY="186dp">
+
+                            <TextView
+                                android:id="@+id/chat_mode_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/dashboard_options_bg"
+                                android:drawableStart="@drawable/info_icon"
+                                android:gravity="center"
+                                android:outlineProvider="none"
+                                android:paddingStart="36dp"
+                                android:paddingTop="8dp"
+                                android:paddingEnd="32dp"
+                                android:paddingBottom="8dp"
+                                android:singleLine="true"
+                                android:text="     Chat Mode"
+                                tools:ignore="HardcodedText"
+                                tools:layout_editor_absoluteX="23dp"
+                                tools:layout_editor_absoluteY="359dp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
+
+                    <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
+                        android:id="@+id/neomorphFrameLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:translationX="-21dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/materialCardView5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/materialCardView5">
+                        app:layout_constraintTop_toBottomOf="@+id/neomorphFrameLayout3"
+                        app:neomorph_background_color="@color/neomorph_background_color"
+                        app:neomorph_corner_radius="21dp"
+                        app:neomorph_elevation="4dp"
+                        app:neomorph_highlight_color="@color/neomorph_highlight_color"
+                        app:neomorph_shadow_color="@color/neomorph_shadow_color"
+                        app:neomorph_shadow_type="outer"
+                        app:neomorph_view_type="rectangular">
 
-                        <TextView
-                            android:id="@+id/sign_out_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/user_icon"
-                            android:gravity="center"
-                            android:paddingStart="32dp"
-                            android:paddingTop="8dp"
-                            android:paddingEnd="32dp"
-                            android:paddingBottom="8dp"
-                            android:text="     Sign Out"
-                            android:textColor="@color/white"
-                            tools:layout_editor_absoluteX="23dp"
-                            tools:layout_editor_absoluteY="359dp" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/linearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:elevation="32dp"
+                            android:onClick="@{() -> viewModel.logoutUser()}"
+                            android:outlineProvider="none"
+                            app:cardBackgroundColor="@color/sign_out_bg"
+                            app:cardCornerRadius="21dp"
+                            app:layout_constraintTop_toBottomOf="@+id/materialCardView5">
 
-                    </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/sign_out_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/user_icon"
+                                android:gravity="center"
+                                android:paddingStart="36dp"
+                                android:paddingTop="8dp"
+                                android:paddingEnd="32dp"
+                                android:paddingBottom="8dp"
+                                android:singleLine="true"
+                                android:text="     Sign Out"
+                                android:textColor="@color/white"
+                                tools:ignore="HardcodedText"
+                                tools:layout_editor_absoluteX="23dp"
+                                tools:layout_editor_absoluteY="359dp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -435,7 +514,7 @@
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <include
-                layout="@layout/fragment_dashboard_bottom_sheet"
+                layout="@layout/bottom_sheet_fragment_dashboard"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
 

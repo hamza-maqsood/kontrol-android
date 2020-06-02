@@ -1,6 +1,6 @@
 package com.grayhatdevelopers.kontrol.adapters.tasks
 
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -14,9 +14,13 @@ import com.grayhatdevelopers.kontrol.databinding.ItemActiveTaskBinding
 import com.grayhatdevelopers.kontrol.models.task.Task
 import com.grayhatdevelopers.kontrol.models.task.TaskActions
 import com.grayhatdevelopers.kontrol.models.task.TasksViewModel
-import com.grayhatdevelopers.kontrol.utils.InjectorUtils
+import com.grayhatdevelopers.kontrol.models.task.TasksViewModelFactory
+import org.kodein.di.direct
+import org.kodein.di.generic.instance
+import timber.log.Timber
 
 class TasksAdapter(
+    context: Context,
     private val viewLifecycleOwner: LifecycleOwner
 ) : DataBoundListAdapter<Task>(
     diffCallback = object : DiffUtil.ItemCallback<Task>() {
@@ -27,7 +31,7 @@ class TasksAdapter(
         override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
             return oldItem == newItem
         }
-    }
+    }, context = context
 ) {
 
     override fun createBinding(parent: ViewGroup, viewType: Int): ViewDataBinding {
@@ -44,11 +48,11 @@ class TasksAdapter(
             is ItemActiveTaskBinding -> {
                 binding.task = item
                 binding.position = position + 1
-                binding.viewModel = InjectorUtils.provideTasksViewModel()
+                binding.viewModel = TasksViewModelFactory(kodein.direct.instance()).create(TasksViewModel::class.java)
                 (binding.viewModel as TasksViewModel).taskActions.observe(viewLifecycleOwner) {
                     when (it) {
                         is TaskActions.ExecuteTask -> {
-                            Log.d(TAG, "Executing task: $item")
+                            Timber.d("Executing task: $item")
                             // notify execute task
                             mOnTaskItemClickedListener?.onTaskItemClicked(it)
                         }
@@ -64,7 +68,6 @@ class TasksAdapter(
 
 
     companion object {
-        private const val TAG = "TasksAdapter"
 
         private var mOnTaskItemClickedListener: OnTaskItemClickedListener? = null
         fun bindOnTaskItemClickListener(listener: OnTaskItemClickedListener) {

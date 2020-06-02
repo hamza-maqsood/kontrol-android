@@ -391,7 +391,7 @@
                             android:visibility="visible" />
 
                         <EditText
-                            android:id="@+id/editTextNumber2"
+                            android:id="@+id/debit_et"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="8dp"
@@ -477,7 +477,23 @@
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <include
-                layout="@layout/fragment_verify_confirmation_bottom_sheet"
+                layout="@layout/bottom_sheet_fragment_verify_confirmation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:viewModel="@{viewModel}" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/payment_verification_standardBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <include
+                layout="@layout/bottom_sheet_sms_verification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:viewModel="@{viewModel}" />

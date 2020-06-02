@@ -8,7 +8,7 @@
     <string name="_return">Return &#9660;</string>
     <string name="expired">Expired &#9660;</string>
     <string name="active_tasks">ACTIVE TASKS</string>
-    <string name="all_tasks">All Tasks</string>
+    <string name="all_tasks">Filter</string>
     <string name="sort_by">Sort by…</string>
     <string name="cheque">CHEQUE</string>
     <string name="online">ONLINE</string>
@@ -63,8 +63,19 @@
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="recording_audio">Recording Audio…</string>
+    <string name="enter_the_verification_code_sent_to_the_provided_phone_number">Enter the verification code sent to the provided phone number.</string>
+    <string name="pin_isn_t_correct">PIN isn\'t correct!</string>
+    <string name="drafts">DRAFTS</string>
+    <string name="photo">Photo</string>
+    <string name="location">Location</string>
+    <string name="enter_query">Enter Query…</string>
+    <string name="active">ACTIVE</string>
+    <string name="waiting">WAITING</string>
+    <string name="completed">COMPLETED</string>
+    <string name="no_filter">No Filter</string>
+    <string name="task_status">Task Status</string>
+    <string name="date_assigned">Date Assigned</string>
 
     <style name="up">&#751;</style>
-
     <style name="down">&#752;</style>
 </resources>

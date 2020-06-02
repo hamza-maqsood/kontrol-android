@@ -5,9 +5,13 @@ object AppConstants {
     /**
      * App Constants
      */
-    const val STARTING_DATE = "01/Jan/70 00:00:00"
     const val TOKEN = "Token"
     const val COMPANY_NAME = "SALOON DEZINERS"
+
+    /**
+     * Storage buckets
+     */
+    const val BUCKET_NAME = "kontrolserver"
 
     /**
      * REGEX
@@ -21,9 +25,9 @@ object AppConstants {
     /**
      * Utils
      */
-    const val DEFAULT_DATE_FORMAT = "dd/MM/YY"
-    const val DEFAULT_TIME_FORMAT = "hh:mm:ss"
-    const val DEFAULT_DATE_TIME_FORMAT = "$DEFAULT_DATE_FORMAT $DEFAULT_TIME_FORMAT"
+    private const val DEFAULT_TIME_FORMAT = "hh:mm:ss"
+    const val DEFAULT_DATE_FORMAT = "dd-MM-YY"
+    const val DEFAULT_DATE_TIME_FORMAT = "${DEFAULT_DATE_FORMAT}_${DEFAULT_TIME_FORMAT}"
 
     /**
      * Shared Preferences Keys
@@ -33,6 +37,25 @@ object AppConstants {
     const val SAVED_RIDER = "savedRider"
     const val SAVED_RIDER_TOKEN = "savedRiderToken"
     const val LAST_FETCH_TIME = "lastFetchTime"
+
+    /**
+     * arrays
+     */
+
+    val months = arrayListOf(
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    )
 
 
     /**
@@ -50,6 +73,8 @@ object AppConstants {
     const val RIDER_LOGIN_ROUTE = "/rider_login"
     const val GET_RIDER_TASKS = "/tasks"
     const val ADD_PAYMENT_TO_TASK_ROUTE = "/add_payment_to_task"
+    const val SEND_MESSAGE = "/add_message"
+    const val GET_CLIENTS_DATA = "/get_all_clients"
 
 
     /**
@@ -59,7 +84,7 @@ object AppConstants {
     const val CREATE_NEW_TASKS = "     Create Payment"
     const val ACTIVE_TASKS = "     Active Tasks"
     const val TASK_HISTORY = "     My Tasks History"
-    const val CHAT_MODE = "     Switch To Chat Mode"
+    const val CHAT_MODE = "     Chat Mode"
     const val SIGN_OUT = "     Sign Out"
     const val HIDE_LABEL = " "
 
