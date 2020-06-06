@@ -9,4 +9,4 @@ Android app for the project Kontrol
 4. [Retrofit]: https://github.com/square/retrofit For making HTTP requests to the remote server
 5. [Glide]: https://github.com/bumptech/glide For image loading
 6. [Android Navigation Component]
-7. [Koin]: https://github.com/InsertKoinIO/koin For Dependency Injections
+7. [kodein]: https://kodein.org/Kodein-DI/?5.0/android For Dependency Injections
